@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * Neural City Dashboard — Global Stylesheet (Final Edition)
+ * Author: Soumoditya Das
+ * ───────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ── Design Tokens ───────────────────────────────────────────────────────── */
+:root {
+  --bg-base:        #020208;
+  --bg-elevated:    rgba(8, 8, 20, 0.55);
+  --bg-panel:       rgba(5, 5, 15, 0.5);
+
+  --accent:         #00f0ff;
+  --accent-dim:     rgba(0, 240, 255, 0.12);
+  --accent-glow:    rgba(0, 240, 255, 0.45);
+
+  --text-primary:   #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted:     rgba(255, 255, 255, 0.28);
+
+  --border-subtle:  rgba(255, 255, 255, 0.07);
+  --border-accent:  rgba(0, 240, 255, 0.25);
+  --border-radius:  20px;
+}
+
+.light {
+  --bg-base:        #eef0f5;
+  --bg-elevated:    rgba(255, 255, 255, 0.72);
+  --bg-panel:       rgba(255, 255, 255, 0.88);
+
+  --accent:         #0062ff;
+  --accent-dim:     rgba(0, 98, 255, 0.1);
+  --accent-glow:    rgba(0, 98, 255, 0.4);
+
+  --text-primary:   #0a0f1e;
+  --text-secondary: rgba(10, 15, 30, 0.65);
+  --text-muted:     rgba(10, 15, 30, 0.38);
+
+  --border-subtle:  rgba(0, 0, 0, 0.07);
+  --border-accent:  rgba(0, 98, 255, 0.25);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.6s ease, color 0.4s ease;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+/* ── Ultra Premium Glassmorphism ────────────────────────────────────────── */
+.glass-panel {
+  background:             var(--bg-elevated);
+  backdrop-filter:        blur(40px) saturate(1.9);
+  -webkit-backdrop-filter:blur(40px) saturate(1.9);
+  border:                 1px solid var(--border-subtle);
+  border-radius:          var(--border-radius);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  transition: background 0.5s ease, border-color 0.5s ease;
+}
+
+.light .glass-panel {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+}
+
+/* ── Neon Glow Text ─────────────────────────────────────────────────────── */
+.neon-text {
+  color:       var(--accent);
+  text-shadow: 0 0 14px var(--accent-glow), 0 0 30px var(--accent-dim);
+}
+
+/* ── Mesh swirl background ──────────────────────────────────────────────── */
+.mesh-swirl-bg {
+  position:        absolute;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index:         0;
+  overflow:        hidden;
+  background-color:var(--bg-base);
+  transition:      background-color 0.6s ease;
+}
+
+.mesh-blob {
+  position:      absolute;
+  border-radius: 50%;
+  filter:        blur(110px);
+  will-change:   transform;
+}
+
+/* ── Pulsing glow border ────────────────────────────────────────────────── */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-dim); }
+  50%       { box-shadow: 0 0 20px 6px var(--accent-glow); }
+}
+.animate-pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
+
+/* ── Subtle shimmer scan line animation (Apple vision style) ────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+  background-size: 800px 100%;
+  animation: shimmer 2.5s infinite linear;
+}
+
+/* ── Thin custom scrollbar ──────────────────────────────────────────────── */
+.scrollbar-thin { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+.scrollbar-thin::-webkit-scrollbar { width: 3px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
+
+/* ── MapLibre attribution ───────────────────────────────────────────────── */
+.maplibregl-ctrl-attrib {
+  background: rgba(0,0,0,0.65) !important;
+  color: rgba(255,255,255,0.45) !important;
+  font-size: 9px !important;
+  border-radius: 8px 0 0 0;
+  padding: 3px 7px !important;
+}
+.maplibregl-ctrl-attrib a { color: rgba(255,255,255,0.5) !important; }
+.maplibregl-ctrl-logo { display: none !important; }
+
+/* ── Deck.gl canvas override ────────────────────────────────────────────── */
+.deckgl-wrapper { position: absolute; inset: 0; }
+
+/* ── Responsive helpers ─────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .glass-panel { border-radius: 16px; }
+}

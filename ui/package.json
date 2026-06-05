@@ -1,0 +1,39 @@
+{
+  "name": "ui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@deck.gl/aggregation-layers": "^9.3.3",
+    "@deck.gl/core": "^9.3.3",
+    "@deck.gl/layers": "^9.3.3",
+    "@deck.gl/react": "^9.3.3",
+    "deck.gl": "^9.3.3",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.17.0",
+    "mapbox-gl": "^3.24.0",
+    "maplibre-gl": "^5.24.0",
+    "next": "16.2.7",
+    "onnxruntime-web": "^1.26.0",
+    "puppeteer": "^25.1.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-map-gl": "^8.1.1",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.7",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
