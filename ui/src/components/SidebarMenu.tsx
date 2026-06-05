@@ -79,6 +79,7 @@ export default function SidebarMenu() {
 
         {/* User Avatar */}
         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-gray-700 to-gray-400 border-2 border-[var(--border-subtle)] overflow-hidden shadow-[0_0_10px_var(--accent-dim)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=Soumoditya" alt="Avatar" className="w-full h-full object-cover" />
         </div>
       </div>

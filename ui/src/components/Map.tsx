@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 /**
@@ -115,7 +116,8 @@ export default function Map3D() {
   // Sync the map pillars to the LIVE API data!
   useEffect(() => {
     if (cities.length > 0) {
-      setStations(generateStations(cities));
+      const t = setTimeout(() => setStations(generateStations(cities)), 0);
+      return () => clearTimeout(t);
     }
   }, [cities]); // Re-run whenever cities data updates via polling
 

@@ -6,8 +6,6 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 export default function CursorFollower() {
   const cursorX = useMotionValue(-200);
   const cursorY = useMotionValue(-200);
-  const isHovering = useRef(false);
-  const isVisible = useRef(false);
 
   const springConfig = { damping: 28, stiffness: 350, mass: 0.4 };
   const smoothX = useSpring(cursorX, springConfig);

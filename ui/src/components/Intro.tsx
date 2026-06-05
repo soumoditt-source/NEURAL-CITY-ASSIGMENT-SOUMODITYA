@@ -31,10 +31,10 @@ export default function Intro({ onComplete }: { onComplete: () => void }) {
   const [timeStr,   setTimeStr]   = useState("");
 
   useEffect(() => {
-    setIsMounted(true);
+    const t1 = setTimeout(() => setIsMounted(true), 0);
 
     // Show text after globe zooms in
-    const t = setTimeout(() => setShowText(true), 600);
+    const t2 = setTimeout(() => setShowText(true), 600);
 
     // Live clock
     const tick = () => {
