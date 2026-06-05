@@ -62,33 +62,50 @@ const CITY_SUBLOCATIONS: Record<string, string[]> = {
   luc: ["Gomti Nagar", "Hazratganj", "Aliganj", "Indira Nagar", "Aminabad", "Mahanagar", "Chowk", "Ashiyana", "Rajajipuram", "Vikas Nagar", "Kaporthala", "Alambagh", "Charbagh", "Jankipuram", "Gomti Nagar Ext"],
 };
 
+/**
+ * Deterministic pseudo-random number seeded from a string.
+ * Same seed → same value, always. This prevents pillars from
+ * teleporting to new positions every time the AQI data re-polls.
+ */
+function seededRand(seed: string): number {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = Math.imul(31, h) + seed.charCodeAt(i) | 0;
+  }
+  // Map the 32-bit int to [0, 1)
+  return ((h >>> 0) / 0xffffffff);
+}
+
 function generateStations(cities: any[]): AQIStation[] {
   if (!cities || cities.length === 0) return [];
-  
+
   const stations: AQIStation[] = [];
   cities.forEach((city) => {
     const sublocs = CITY_SUBLOCATIONS[city.id] || ["Downtown", "North", "South", "East", "West", "Central", "Industrial", "Residential"];
-    
-    // Generate 40 pillars for each city, distributed geographically
+
     for (let i = 0; i < 40; i++) {
-      // Add local variance to the real live AQI (+/- 25%)
-      const variance = (Math.random() - 0.5) * 0.5 * city.aqi; 
-      const localAqi = Math.max(10, Math.min(500, city.aqi + variance));
-      
-      const subName = sublocs[i % sublocs.length];
+      const seed = `${city.id}-${i}`;
+
+      // Coordinates seeded once, NEVER change between polls → no teleporting
+      const lngOffset = (seededRand(`${seed}-lng`) - 0.5) * 0.45;
+      const latOffset = (seededRand(`${seed}-lat`) - 0.5) * 0.45;
+
+      // AQI variance IS allowed to drift with real data, using a small seeded nudge
+      const variance = (seededRand(`${seed}-aqi`) - 0.5) * 0.4 * city.aqi;
+      const localAqi  = Math.max(10, Math.min(500, city.aqi + variance));
 
       stations.push({
-        id: `${city.id}-${i}`,
-        city: `${city.name} — ${subName}`, // Specific sub-location
+        id: seed,
+        city: `${city.name} — ${sublocs[i % sublocs.length]}`,
         coordinates: [
-          city.lng + (Math.random() - 0.5) * 0.45,
-          city.lat + (Math.random() - 0.5) * 0.45,
+          city.lng + lngOffset,
+          city.lat + latOffset,
         ],
-        aqi: localAqi,
-        pm25: localAqi * 0.42,
-        temperature: city.temperature + (Math.random() - 0.5) * 2,
-        humidity: city.humidity + (Math.random() - 0.5) * 10,
-        windSpeed: city.windSpeed + (Math.random() - 0.5) * 5,
+        aqi:         localAqi,
+        pm25:        localAqi * 0.42,
+        temperature: city.temperature + (seededRand(`${seed}-t`) - 0.5) * 2,
+        humidity:    city.humidity    + (seededRand(`${seed}-h`) - 0.5) * 10,
+        windSpeed:   city.windSpeed   + (seededRand(`${seed}-w`) - 0.5) * 5,
       });
     }
   });

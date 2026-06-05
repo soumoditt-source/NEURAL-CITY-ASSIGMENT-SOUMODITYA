@@ -8,6 +8,9 @@
 [![Deck.gl](https://img.shields.io/badge/Powered%20by-Deck.gl%20WebGL-blue?style=for-the-badge)](https://deck.gl/)
 [![ONNX](https://img.shields.io/badge/AI%20Engine-ONNX%20Web-orange?style=for-the-badge)](https://onnxruntime.ai/)
 [![Open-Meteo](https://img.shields.io/badge/Data-Open--Meteo%20CAMS-green?style=for-the-badge)](https://open-meteo.com/)
+[![Live Demo](https://img.shields.io/badge/LIVE%20DEMO-neural--city.vercel.app-cyan?style=for-the-badge&logo=vercel)](https://neural-city-assigment-soumoditya.vercel.app/)
+
+**🌐 Live:** [https://neural-city-assigment-soumoditya.vercel.app/](https://neural-city-assigment-soumoditya.vercel.app/)
 
 </div>
 
