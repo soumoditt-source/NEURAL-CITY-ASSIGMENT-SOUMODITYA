@@ -46,7 +46,7 @@ export default function Intro({ onComplete }: { onComplete: () => void }) {
     tick();
     const clock = setInterval(tick, 1000);
 
-    return () => { clearTimeout(t); clearInterval(clock); };
+    return () => { clearTimeout(t1); clearTimeout(t2); clearInterval(clock); };
   }, []);
 
   const handleEnter = () => {
